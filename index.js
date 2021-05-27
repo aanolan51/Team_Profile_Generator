@@ -39,7 +39,7 @@ function createManager(){
         //using the answers from the prompt, build the subclass Manager and push to the employeeArray:
         const newManager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber, "Manager");
         employeeArray.push(newManager);
-        console.log(employeeArray);
+        // console.log(employeeArray);
         //use recursion to run the createTeam function again until user is done building their team. createTeam only includes the engineer, intern
         //and end options so that you cannot have multiple managers on the team. This could be changed though by adding a manager option
         //back into the createTeam function.
@@ -75,7 +75,7 @@ function createEngineer(){
         //using the answers from the prompt, build the subclass Engineer and push to the employeeArray:
         const newEngineer = new Engineer(answers.name, answers.id, answers.email, answers.gitHub, "Engineer");
         employeeArray.push(newEngineer);
-        console.log(employeeArray);
+        // console.log(employeeArray);
         //use recursion to run the createTeam function again until user is done building their team.
         createTeam();
     });   
@@ -109,7 +109,7 @@ function createIntern(){
         //using the answers from the prompt, build the subclass Intern and push to the employeeArray:
         const newIntern = new Intern(answers.name, answers.id, answers.email, answers.school, "Intern");
         employeeArray.push(newIntern);
-        console.log(employeeArray);
+        // console.log(employeeArray);
         //use recursion to run the createTeam function again until user is done building their team.
         createTeam();
     });   
