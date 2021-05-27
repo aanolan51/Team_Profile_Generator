@@ -5,6 +5,7 @@ const Intern = require('./lib/Intern');
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const generateHTML = require('./lib/generateHTML');
+const { exit } = require("process");
 
 
 //Create an array for all generated employees to be stored in:
@@ -39,7 +40,9 @@ function createManager(){
         const newManager = new Manager(answers.name, answers.id, answers.email, answers.officeNumber, "Manager");
         employeeArray.push(newManager);
         console.log(employeeArray);
-        //use recursion to run the createTeam function again until user is done building their team.
+        //use recursion to run the createTeam function again until user is done building their team. createTeam only includes the engineer, intern
+        //and end options so that you cannot have multiple managers on the team. This could be changed though by adding a manager option
+        //back into the createTeam function.
         createTeam();
     });   
 }
@@ -113,20 +116,56 @@ function createIntern(){
 };
 
 //Create the function to add new team members:
-function createTeam(){
-    inquirer.prompt([{
+// function createTeam(){
+//     inquirer.prompt([{
+//         type: "list",
+//         name: "employeeRole",
+//         message: "What is the employee's role?",
+//         choices: ["manager", "engineer", "intern", "I'm done building my team!"]
+//       }
+//     ])
+//     //use the {employeeRole} in order to pull the selected input from the prompt of name: "employeeRole"
+//     .then(({employeeRole})=>{
+//         switch(employeeRole){
+//             case "manager": 
+//                 createManager();
+//                 break;
+//             case "engineer": 
+//                 createEngineer();
+//                 break;
+//             case "intern": 
+//                 createIntern();
+//                 break;
+//             case "I'm done building my team!":
+              
+//               //Pull in the generateHTML function javascript and run it with the array that each new employee has been saved into: 
+//                 let generatedHTML = generateHTML(employeeArray);
+//                 console.log(generatedHTML);
+//                 fs.writeFile('./dist/test12.html', generatedHTML, function (err){
+//                   if (err) {
+//                     console.error(err)
+//                     return
+//                   }
+//                 });
+//                 break;
+//             }
+//         }
+//     );
+// };
+
+
+//Create the function to add new team members:
+async function createTeam(){
+    await inquirer.prompt([{
         type: "list",
         name: "employeeRole",
         message: "What is the employee's role?",
-        choices: ["manager", "engineer", "intern", "I'm done building my team!"]
+        choices: ["engineer", "intern", "I'm done building my team!"]
       }
     ])
     //use the {employeeRole} in order to pull the selected input from the prompt of name: "employeeRole"
     .then(({employeeRole})=>{
         switch(employeeRole){
-            case "manager": 
-                createManager();
-                break;
             case "engineer": 
                 createEngineer();
                 break;
@@ -134,38 +173,55 @@ function createTeam(){
                 createIntern();
                 break;
             case "I'm done building my team!":
-              
-              //Pull in the generateHTML function javascript and run it with the array that each new employee has been saved into: 
-                let generatedHTML = generateHTML(employeeArray);
-                console.log(generatedHTML);
-                fs.writeFile('./dist/test12.html', generatedHTML, function (err){
-                  if (err) {
-                    console.error(err)
-                    return
-                  }
-                });
+              //Ask for file name input:
+              let fileNameQuestion = [{ type: "input",
+              name: "file",
+              message: "What do you want to name the file? No special characters!",}];
+              inquirer.prompt(fileNameQuestion).then(answer =>{
+                const fileName = answer.file;
+                const file = fileName.split(" ").join("");
+                const finalFile = './dist/'+file+'.html'
+                // console.log(finalFile);
+                 //Pull in the generateHTML function javascript and run it with the array that each new employee has been saved into: 
+                 let generatedHTML = generateHTML(employeeArray);
+                 console.log("Generating HTML Page!");
+                 //Write the file with the inputed filename:
+                 fs.writeFile(finalFile, generatedHTML, function (err){
+                   if (err) {
+                     console.error(err)
+                     return
+                   }
+                 });
+              });
                 break;
             }
         }
     );
 };
 
+//Function to start building the team. Only provides two options at first, requiring the person to put the manager in first.
+function startBuildingTeam(){
+  inquirer.prompt([{
+      type: "list",
+      name: "start",
+      message: "Start building your team!",
+      choices: ["Manager", "Quit"]
+    }
+  ])
+  //use the {start} in order to pull the selected input from the prompt of name: "start"
+  .then(({start})=>{
+      switch(start){
+          case "Manager": 
+              createManager();             
+              break;
 
+          case "Quit": 
+          //exit the program without building a team.
+              process.exit(0);
+          }
+      }
+  );
+};
 
-
-
-createTeam();
-
-//Create the function that will pull the mainBody.html template, read it, and then join the new HTML and write to a new file:
-              //data is the contents of the file being read utf8 to allow to be read in HTML syntax. 
-              // fs.readFile('./src/mainBody.html', 'utf8', function thenWrite(err, data) {
-              //   if (err) {
-              //       throw err;
-              //   }
-              //   //Split the mainBody at the <div></div> place holder:
-              //   const createdHTML = generateHTML(employeeArray);
-              //   const contentArray = data.split("<div></div>");
-              //   console.log(contentArray);
-              //   const joinArray = contentArray.join(createdHTML);
-              //   console.log(joinArray);
-              // });
+//Run the startBuildingTeam function:
+startBuildingTeam();
