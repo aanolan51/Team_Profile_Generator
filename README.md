@@ -40,6 +40,8 @@ Follow the question structure by hitting enter on the type of employee you want 
 ## Testing
 This application uses jest testing. Please see the _test_ folder for the jest tests that were built. Use ***npm test*** command to run the tests when you are in the test directory in the terminal.
 
+![Gif of testing Application](./src/testGif.gif)
+
 ## Contributions
 :busts_in_silhouette:<br>
 If you wish to contribute, please feel free to open an issue so we can discuss your ideas and develop a plan to move forward!
