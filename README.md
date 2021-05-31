@@ -30,6 +30,8 @@ Follow the question structure by hitting enter on the type of employee you want 
 ![Manager card](./src/manager.png)
 ![Employee cards](./src/employees.png)
 
+![Gif of running Application](./src/teamProfileGenerator.gif)
+
 ## License
  ![badge](https://img.shields.io/badge/license-mit-blue?style=flat-square)<br>
   This application is licensed under the MIT license. Please click the link to read more about the license!<br>
