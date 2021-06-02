@@ -7,6 +7,15 @@ const Engineer = require('./lib/Engineer');
 const generateHTML = require('./lib/generateHTML');
 const { exit } = require("process");
 
+//Validation function to test if input has been entered:
+function validateInput(input){
+  if (input == '') {
+    // Pass the return value in the done callback
+    return 'You need to provide input.';
+   } else{
+        return true
+    }
+};
 
 //Create an array for all generated employees to be stored in:
 let employeeArray = [];
@@ -18,22 +27,26 @@ function createManager(){
           type: "input",
           name: "name",
           message: "Enter Manager's Name:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "id",
           message: "Enter Manager's Employee id:",
+          validate: validateInput,         
         },
         {
           type: "input",
           name: "email",
           message: "Enter Manager's Email:",
+          validate: validateInput,        
         },
         {
           type: "input",
           name: "officeNumber",
           message: "Enter Manager's office phone number:",
-        },
+          validate: validateInput,         
+          },
       ];
     inquirer.prompt(managerQuestions).then(answers =>{
         //using the answers from the prompt, build the subclass Manager and push to the employeeArray:
@@ -54,21 +67,25 @@ function createEngineer(){
           type: "input",
           name: "name",
           message: "Enter Engineer's Name:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "id",
           message: "Enter Engineer's Employee id:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "email",
           message: "Enter Engineer's Email:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "gitHub",
           message: "Enter Engineer's gitHub username:",
+          validate: validateInput,
         },
       ];
     inquirer.prompt(engineerQuestions).then(answers =>{
@@ -88,21 +105,25 @@ function createIntern(){
           type: "input",
           name: "name",
           message: "Enter Intern Name:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "id",
           message: "Enter Intern employee id:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "email",
           message: "Enter Intern Email:",
+          validate: validateInput,
         },
         {
           type: "input",
           name: "school",
           message: "Enter Intern school:",
+          validate: validateInput,
         },
       ];
     inquirer.prompt(internQuestions).then(answers =>{
